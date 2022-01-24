@@ -5,7 +5,6 @@ Example of a linked list of strings
 #include <stdio.h>
 #include <stdlib.h> //has functions malloc() and free()
 #include <string.h>
-#define MAX 30  //maximum characters in the word
 #define STOP "STOP" //end the loop
 #define END_OF_STRING '\0'
 
@@ -17,7 +16,7 @@ data: stores a word (string)
 next: is a pointer to the next node
 */
 struct node{
-   char data[MAX];
+   char data[256];
    struct node *next;
 };
 
@@ -130,7 +129,7 @@ if no space on heap, malloc() will return NULL
    //copy over word to the node
       strcpy(newNode->data, word2);
    //figure out where to insert in linked list
-      while(NULL != current && strcmp(word2, current->data)>0){
+      while(NULL != current){
       //move previous to current
          previous = current;
       //move current to next node
@@ -158,7 +157,6 @@ void displayLinkedList(NodePointer current){
       printf("The linked list is empty!\n\n");
       return;
    }
-   printf("Here is a list of the strings you entered:\n");
    //loop through list
    printf("->");
    while(NULL != current){
@@ -175,6 +173,21 @@ void displayLinkedList(NodePointer current){
 }//end of function
 
 
+void reverse(NodePointer *head2)
+{
+    NodePointer prev   = NULL;
+    NodePointer current = *head2;
+    NodePointer next;
+    while (current != NULL)
+    {
+        next  = current->next;  
+        current->next = prev;   
+        prev = current;
+        current = next;
+    }
+    *head2 = prev;
+}
+
 /*
 main method - asks the user to enter a word,
 and inserts the word into a linked list in alphabetical order, 
@@ -182,7 +195,7 @@ and deletes words at the user's request.
 */
 int main(){
 //stores each word
-   char word[MAX]={'\0'};
+   char word[256]={'\0'};
 //stores a pointer to the 1st node in the linked list
    NodePointer head = NULL;
    
@@ -190,7 +203,7 @@ int main(){
 //keep inserting until user enters "stop"
    while(0 != strcmp(word, STOP)){
       printf("Please enter another strng or enter STOP if finished. \n");
-      getline2(word, MAX);
+      getline2(word, 256);
       if(0 != strcmp(word, STOP)){
       //&head: send the address of the pointer to the 1st node in list
          insertIntoLinkedList(word, &head);
@@ -198,8 +211,13 @@ int main(){
    }//end of while
    
    if(0 == strcmp(word, STOP)){
+     printf("\nHere is a list of the strings you entered:\n");
      displayLinkedList(head);
       }
+      
+   reverse(&head);
+   printf("Here is a reversed list of the strings you entered:\n");
+   displayLinkedList(head);
    
    return 0;
 }//end of main
