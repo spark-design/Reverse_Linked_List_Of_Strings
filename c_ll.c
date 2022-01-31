@@ -8,65 +8,65 @@ https://www.tutorialspoint.com/c_standard_library/c_function_getchar.htm
 
 struct node{
    char strings[256];
-   struct node *next;
+   struct node *after;
 }Node;
 
-typedef struct node* NodePointer;
+typedef struct node* ptr;
 
 // insert str into linked list
-void insert(char word2[], NodePointer *head2){
+void insert(char word2[], ptr *newhead1){
 
    // initialize nodes
-   NodePointer newNode = NULL;
-   NodePointer previous = NULL;
-   NodePointer current = *head2;
+   ptr node1 = NULL;
+   ptr before = NULL;
+   ptr start = *newhead1;
 
-   // allocate memory for newnode to insert
-   newNode = malloc(sizeof(Node));
+   // allocate memory for node1 to insert
+   node1 = malloc(sizeof(Node));
 
    // if new node isn't empty, copy strings
-   if(newNode != NULL){
-      strcpy(newNode->strings, word2);
+   if(node1 != NULL){
+      strcpy(node1->strings, word2);
       
-      // if the current node isn't empty, point to next node
-      while(current != NULL){
-         previous = current;
-         current = current->next;
+      // if the start node isn't empty, point to after node
+      while(start != NULL){
+         before = start;
+         start = start->after;
       }
       
-      // if previous node is null then this is the head
-      if(previous == NULL){
-         newNode->next = current;
-         *head2 = newNode; 
+      // if before node is null then this is the head1
+      if(before == NULL){
+         node1->after = start;
+         *newhead1 = node1; 
       }
       
-      // if previous node isn't null
-      if(previous != NULL){
-         previous->next = newNode;
-         newNode->next = current;
+      // if before node isn't null
+      if(before != NULL){
+         before->after = node1;
+         node1->after = start;
       }
    }
 }
 
 // reverse and then display linked list
-void display(NodePointer current){
+void display(ptr start){
 
 // initialize nodes
-    NodePointer prev   = NULL;
-    NodePointer next;
+    ptr prev   = NULL;
+    ptr after;
     
-    // while the current node isn't null
-    while (current != NULL)
+    // while the start node isn't null
+    while (start != NULL)
     {
-        next  = current->next;  
-        current->next = prev;   
-        prev = current;
-        current = next;
+        after  = start->after;  
+        start->after = prev;   
+        prev = start;
+        start = after;
     }
-    current = prev;
+    start = prev;
     
-   // if current is null then the list is empty and function ends
-   if(current == NULL){
+   // if start is null then the list is empty and function ends
+   if(start == NULL){
       printf("The linked list is empty!\n\n");
       return;
    }
@@ -74,13 +74,13 @@ void display(NodePointer current){
    // print start of linked list pointer
    printf("->");
    
-   // while current node isn't null, print the node and move to next
-   while(current != NULL){
-      printf("[ %s ]", current->strings);
-      current = current->next;
+   // while start node isn't null, print the node and move to after
+   while(start != NULL){
+      printf("[ %s ]", start->strings);
+      start = start->after;
       
       // separate if for printing purposes
-      if(current != NULL){
+      if(start != NULL){
       printf("<-->");
       }
    }
@@ -95,12 +95,12 @@ int main(){
 
    // initialize character array and node
    char str[256];
-   NodePointer head = NULL;
+   ptr head1 = NULL;
    
    // get and insert string input
    printf("This program will read strings until STOP is entered.\n");
    scanf("%[^\n]%*c", str);
-   insert(str, &head);
+   insert(str, &head1);
    
    // loop until stop is entered
    while(0 != strcmp(str, STOP)){
@@ -108,14 +108,14 @@ int main(){
       *str;
       scanf("%[^\n]%*c", str);
       if(0 != strcmp(str, STOP)){
-         insert(str, &head);
+         insert(str, &head1);
       }
    }
    
    // once stop is entered, display reverse list of strings
    if(0 == strcmp(str, STOP)){
      printf("\nHere is a reversed list of the strings you entered:\n");
-     display(head);
+     display(head1);
       }
       
    
