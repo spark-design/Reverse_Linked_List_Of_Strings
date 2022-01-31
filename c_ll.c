@@ -1,5 +1,16 @@
-/* Sources: 
-https://www.tutorialspoint.com/c_standard_library/c_function_getchar.htm
+/*
+Student Name: Connor Sparkman
+Student NetID: cps260 
+Compiler Used: Linux CMD 
+Program Description: 
+Take string input, insert into linked list, reverse and then display linked list
+
+Sources: 
+https://www.cplusplus.com/reference/cstring/strcpy/
+https://www.tutorialspoint.com/cprogramming/c_structures.htm
+https://www.tutorialspoint.com/c_standard_library/c_function_malloc.htm
+https://www.tutorialspoint.com/c_standard_library/c_function_scanf.htm
+https://www.tutorialspoint.com/c_standard_library/c_function_strcmp.htm
 */
 #include <stdio.h>
 #include <stdlib.h> 
@@ -64,12 +75,6 @@ void display(ptr start){
         start = after;
     }
     start = prev;
-    
-   // if start is null then the list is empty and function ends
-   if(start == NULL){
-      printf("The linked list is empty!\n\n");
-      return;
-   }
    
    // print start of linked list pointer
    printf("->");
@@ -102,7 +107,7 @@ int main(){
    scanf("%[^\n]%*c", str);
    insert(str, &head1);
    
-   // loop until stop is entered
+   // loop until stop is entered. Loop scans string inputs, puts them into linked list, and once stop is entered reverses and displays list
    while(0 != strcmp(str, STOP)){
       printf("Please enter another strng or enter STOP if finished. \n");
       *str;
@@ -110,14 +115,9 @@ int main(){
       if(0 != strcmp(str, STOP)){
          insert(str, &head1);
       }
-   }
-   
-   // once stop is entered, display reverse list of strings
-   if(0 == strcmp(str, STOP)){
-     printf("\nHere is a reversed list of the strings you entered:\n");
-     display(head1);
-      }
-      
-   
-   return 0;
-}
+      if(0 == strcmp(str,STOP)){
+      // once stop is entered, display reverse list of strings
+      printf("\nHere is a reversed list of the strings you entered:\n");
+      display(head1);
+      return 0;
+   }}}
