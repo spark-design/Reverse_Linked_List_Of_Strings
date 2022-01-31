@@ -7,12 +7,10 @@ https://www.tutorialspoint.com/c_standard_library/c_function_getchar.htm
 #define STOP "STOP"
 
 struct node{
-   char data[256];
+   char strings[256];
    struct node *next;
-};
+}Node;
 
-
-typedef struct node Node;
 typedef struct node* NodePointer;
 
 // insert str into linked list
@@ -26,9 +24,9 @@ void insert(char word2[], NodePointer *head2){
    // allocate memory for newnode to insert
    newNode = malloc(sizeof(Node));
 
-   // if new node isn't empty, copy string data to it
+   // if new node isn't empty, copy strings
    if(newNode != NULL){
-      strcpy(newNode->data, word2);
+      strcpy(newNode->strings, word2);
       
       // if the current node isn't empty, point to next node
       while(current != NULL){
@@ -78,7 +76,7 @@ void display(NodePointer current){
    
    // while current node isn't null, print the node and move to next
    while(current != NULL){
-      printf("[ %s ]", current->data);
+      printf("[ %s ]", current->strings);
       current = current->next;
       
       // separate if for printing purposes
@@ -123,6 +121,3 @@ int main(){
    
    return 0;
 }
-
-   
-
